@@ -32,4 +32,5 @@ COPY . .
 # Run everything after as non-privileged user.
 USER pptruser
 
-CMD [ "node", "cloud.google.com/home-to-cloud-run.js" ]
+ENTRYPOINT ["node"]
+CMD [ "index.js" ]

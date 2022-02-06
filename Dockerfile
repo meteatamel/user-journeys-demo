@@ -32,5 +32,4 @@ COPY . .
 # Run everything after as non-privileged user.
 USER pptruser
 
-ENTRYPOINT ["node"]
-CMD [ "index.js" ]
+ENTRYPOINT ["node", "runner.js"]

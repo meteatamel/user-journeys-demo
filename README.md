@@ -30,7 +30,7 @@ This demo shows how to replay recorded user journeys of your website on Cloud Ru
   ```
 1. Create a Cloud Run job, replace `your-site.com/user-journey.js` with the relative link to your user journey `.js` file:
   ```
-  gcloud alpha run jobs create user-journeys-demo --image us-central1-docker.pkg.dev/steren-serverless/containers/user-journeys-demo:latest --args your-site.com/user-journey.js
+  gcloud alpha run jobs create user-journeys-demo --image us-central1-docker.pkg.dev/YOUR_PROJECT_ID/containers/user-journeys-demo:latest --args your-site.com/user-journey.js
   ```
 1. Run the Cloud Run job:
   ```

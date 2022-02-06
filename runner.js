@@ -15,8 +15,8 @@ let taskIndex = 0;
 if(process.env.CLOUD_RUN_JOB || process.env.CR_JOB) {
   if(process.env.CLOUD_RUN_TASK_INDEX) {
     taskIndex = parseInt(process.env.CLOUD_RUN_TASK_INDEX, 10);
-  } else if (process.env.CR_TASK_INDEX) {
-    taskIndex = parseInt(process.env.CR_TASK_INDEX, 10);
+  } else if (process.env.TASK_INDEX) {
+    taskIndex = parseInt(process.env.TASK_INDEX, 10);
   }
 }
 

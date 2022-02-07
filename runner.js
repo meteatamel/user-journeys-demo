@@ -46,6 +46,3 @@ console.log(`User journey ${taskIndex} running: ${scripts[taskIndex]}`);
 require(`./journeys/${scripts[taskIndex]}`);
 
 console.log(`User journey ${taskIndex} completed: ${scripts[taskIndex]}`);
-
-
-

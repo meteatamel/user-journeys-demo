@@ -40,7 +40,7 @@ This demo shows how to replay recorded user journeys of your website on Cloud Ru
    gcloud iam service-accounts create no-permission --description="No IAM permission"
    ```
 
-1. Create a Cloud Run job, replace `your-site.com/user-journey.js` with the relative link to your user journey `.js` file:
+1. Create a Cloud Run job:
    ```
    gcloud alpha run jobs create user-journeys-demo \
       --image us-central1-docker.pkg.dev/${PROJECT_ID}/containers/user-journeys-demo:latest \

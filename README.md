@@ -36,21 +36,20 @@ This demo shows how to replay recorded user journeys of your website on Cloud Ru
    gcloud builds submit -t us-central1-docker.pkg.dev/${PROJECT_ID}/containers/user-journeys-demo
    ```
 1. Create a service account that has no permission, this will ensure replayed user journeys cannot access any of your Google Cloud resources. 
-  ```
-  gcloud iam service-accounts create no-permission --description="No IAM permission"
-  ```
+   ```
+   gcloud iam service-accounts create no-permission --description="No IAM permission"
+   ```
 
 1. Create a Cloud Run job, replace `your-site.com/user-journey.js` with the relative link to your user journey `.js` file:
-  ```
-  gcloud alpha run jobs create user-journeys-demo \
-     --image us-central1-docker.pkg.dev/${PROJECT_ID}/containers/user-journeys-demo:latest \
-     --args your-site.com/user-journey.js \
-     --service-account no-permission@${PROJECT_ID}.iam.gserviceaccount.com
-  ```
+   ```
+   gcloud alpha run jobs create user-journeys-demo \
+      --image us-central1-docker.pkg.dev/${PROJECT_ID}/containers/user-journeys-demo:latest \
+      --service-account no-permission@${PROJECT_ID}.iam.gserviceaccount.com
+   ```
 1. Run the Cloud Run job:
-  ```
-  gcloud alpha run jobs run user-journeys-demo
-  ```
+   ```
+   gcloud alpha run jobs run user-journeys-demo
+   ```
 
 ## Replaying every day
 
@@ -91,6 +90,6 @@ docker build . -t user-journeys-demo
 Run locally:
 
 ```
-docker run --cap-add=SYS_ADMIN user-journeys-demo example.com/more-info.js
+docker run --cap-add=SYS_ADMIN user-journeys-demo
 ```
 

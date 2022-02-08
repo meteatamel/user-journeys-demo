@@ -1,4 +1,7 @@
-const scripts = process.argv.slice(2);
+const fs = require('fs');
+const journeyFolder = './journeys';
+
+const scripts = fs.readdirSync(journeyFolder);
 
 if(scripts.length === 0) {
   console.log({
@@ -7,6 +10,8 @@ if(scripts.length === 0) {
     severity: "WARNING",
   });
   process.exit(1);
+} else {
+  console.log(`Found ${scripts.length} user journeys in folder "journeys"`);
 }
 
 let taskIndex = 0;
@@ -23,26 +28,15 @@ if(process.env.CLOUD_RUN_JOB || process.env.CR_JOB) {
 if(taskIndex > scripts.length) {
   console.error({
     message: `The job has been configured with too many tasks and not enough user journeys. 
-    Use the same number of tasks as user journeys.
-    Number of journeys configured as arguments: ${scripts.length}.
-    Index of the current task: ${taskIndexs}`,
-    severity: "ERROR",
-  });
-  process.exit(1);
-}
-
-if(!scripts[taskIndex].match(/.*\.js$/)) {
-  console.error({
-    message: `Invalid path to user journey ${scripts[taskIndex]}.
-    User journey must be passed as a JavaScript file relative to the "journeys/" folder.
-    Example: "example.com/more-info.js`,
-    severity: "ERROR",
+    We recommend using the same number of tasks as user journeys.
+    Number of journeys found: ${scripts.length}.
+    Index of the current task: ${taskIndexs}.
+    This process will now exit.`,
+    severity: "WARNING",
   });
   process.exit(1);
 }
 
 console.log(`User journey ${taskIndex} running: ${scripts[taskIndex]}`);
-
 require(`./journeys/${scripts[taskIndex]}`);
-
 console.log(`User journey ${taskIndex} completed: ${scripts[taskIndex]}`);

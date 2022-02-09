@@ -23,6 +23,9 @@ echo "Configure your local `gcloud` to use your project and a region to use for 
 gcloud config set project ${PROJECT_ID}
 gcloud config set run/region ${REGION}
 
+echo "Enable required services"
+gcloud services enable artifactregistry.googleapis.com run.googleapis.com cloudbuild.googleapis.com
+
 echo "Create a new Artifact Registry container repository"
 gcloud artifacts repositories create containers --repository-format=docker --location=${REGION}
 

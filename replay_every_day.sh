@@ -14,22 +14,20 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-set -v
-
 DIR="$(dirname "$0")"
 . "${DIR}/config"
 
-## Replaying every day
+echo "Replaying every day"
 
-# Create a new service account
+echo "Create a new service account"
 gcloud iam service-accounts create job-runner --description="Can run Cloud Run Jobs"
 
-# Grant this Service account the permission to run the Cloud Run job
+echo "Grant this Service account the permission to run the Cloud Run job"
 gcloud projects add-iam-policy-binding ${PROJECT_ID} \
     --member="serviceAccount:job-runner@${PROJECT_ID}.iam.gserviceaccount.com" \
     --role="roles/run.invoker"
 
-# Create a Cloud Scheduler Job that will run the Cloud Run Job everyday.
+echo "Create a Cloud Scheduler Job that will run the Cloud Run Job everyday"
 gcloud scheduler jobs create http job-runner \
     --schedule='0 12 * * *' \
     --uri=https://${REGION}-run.googleapis.com/apis/run.googleapis.com/v1/namespaces/${PROJECT_ID}/jobs/user-journeys-demo:run \
@@ -37,5 +35,5 @@ gcloud scheduler jobs create http job-runner \
     --oauth-service-account-email=job-runner@${PROJECT_ID}.iam.gserviceaccount.com \
     --oauth-token-scope=https://www.googleapis.com/auth/cloud-platform
 
-# Test that Cloud Scheduler can correctly run the Cloud Run job:
+echo "Test that Cloud Scheduler can correctly run the Cloud Run job"
 gcloud scheduler jobs run job-runner

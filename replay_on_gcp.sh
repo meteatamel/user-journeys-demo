@@ -14,32 +14,28 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-set -v
-
 DIR="$(dirname "$0")"
 . "${DIR}/config"
 
-## Replaying on Google Cloud
+echo "Replaying on Google Cloud"
 
-# Configure your local `gcloud` to use your project:
+echo "Configure your local `gcloud` to use your project and a region to use for Cloud Run"
 gcloud config set project ${PROJECT_ID}
-
-# Configure a region to use for Cloud Run:
 gcloud config set run/region ${REGION}
 
-# Create a new Artifact Registry container repository:
+echo "Create a new Artifact Registry container repository"
 gcloud artifacts repositories create containers --repository-format=docker --location=${REGION}
 
-# Build this repository into a container image:
+echo "Build this repository into a container image"
 gcloud builds submit -t us-central1-docker.pkg.dev/${PROJECT_ID}/containers/user-journeys-demo
 
-# Create a service account that has no permission, this will ensure replayed user journeys cannot access any of your Google Cloud resources. 
+echo "Create a service account that has no permission, this will ensure replayed user journeys cannot access any of your Google Cloud resources"
 gcloud iam service-accounts create no-permission --description="No IAM permission"
 
-# Create a Cloud Run job:
+echo "Create a Cloud Run job"
 gcloud alpha run jobs create user-journeys-demo \
   --image us-central1-docker.pkg.dev/${PROJECT_ID}/containers/user-journeys-demo:latest \
   --service-account no-permission@${PROJECT_ID}.iam.gserviceaccount.com
 
-# Run the Cloud Run job:
+echo "Run the Cloud Run job"
 gcloud alpha run jobs run user-journeys-demo
